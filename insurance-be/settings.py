@@ -39,6 +39,7 @@ INSTALLED_APPS = [
 
     # apps
     'apps.users',
+    'apps.policy',
 ]
 
 MIDDLEWARE = [
