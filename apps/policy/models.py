@@ -12,7 +12,7 @@ class InsuranceCompanyModel(models.Model):
 class ClientModel(models.Model):
     name = models.CharField(max_length=255)
     contact = models.CharField(max_length=255)
-    balance = models.DecimalField(max_digits=10, decimal_places=2)
+    # balance = models.DecimalField(max_digits=10, decimal_places=2)
 
 class AgentModel(models.Model):
     name = models.CharField(max_length=255)
