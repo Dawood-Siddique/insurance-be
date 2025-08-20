@@ -14,7 +14,7 @@ from apps.policy.serializers.policy_serializer import (
 from apps.policy.models import PolicyModel, ClientModel, InsuranceCompanyModel, AgentModel, TranscationLedger
 
 class PolicyView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
         data = PolicyModel.objects.all()
@@ -43,7 +43,7 @@ class PolicyView(APIView):
 
 
 class ClientView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = ClientSerilializer(data=request.data)
@@ -59,7 +59,7 @@ class ClientView(APIView):
 
 
 class InsuranceCompanyView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = InsuranceCompanySerializer(data=request.data)
         if serializer.is_valid():
@@ -74,7 +74,7 @@ class InsuranceCompanyView(APIView):
     
 
 class AgentView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = AgentSerializer(data=request.data)
         if serializer.is_valid():
