@@ -16,6 +16,12 @@ from apps.policy.models import PolicyModel, ClientModel, InsuranceCompanyModel, 
 class PolicyView(APIView):
     permission_classes = [IsAuthenticated]
 
+    def get(self, request):
+        data = PolicyModel.objects.all()
+        serializer = PolicySerializer(data, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
     def post(self, request):
         serializer = PolicySerializer(data=request.data)
         if serializer.is_valid():
