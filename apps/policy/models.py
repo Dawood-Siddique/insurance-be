@@ -13,11 +13,16 @@ class ClientModel(models.Model):
     name = models.CharField(max_length=255)
     contact = models.CharField(max_length=255)
     # balance = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    def __str__(self):
+        return f"{self.name}"
 
 class AgentModel(models.Model):
     name = models.CharField(max_length=255)
     contact = models.CharField(max_length=255)
 
+    def __str__(self):
+        return f"{self.name}"
 
 class PolicyModel(models.Model):
     issue_date = models.DateField()
@@ -37,13 +42,6 @@ class PolicyModel(models.Model):
     remarks = models.TextField()
     reference_number = models.IntegerField()
 
-
-
-
-
-
-
-    
 
 class TranscationLedger(models.Model):
     policy = models.ForeignKey(PolicyModel, on_delete=models.CASCADE)

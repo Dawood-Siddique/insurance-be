@@ -1,7 +1,33 @@
 from rest_framework import serializers
-from apps.policy.models import PolicyModel
+from apps.policy.models import PolicyModel, ClientModel, InsuranceCompanyModel, AgentModel, TranscationLedger
 
-class PolicyModelSerializer(serializers.ModelSerializer):
+
+class PolicySerializer(serializers.ModelSerializer):
     class Meta:
         model = PolicyModel
         fields = '__all__'
+
+
+class ClientSerilializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClientModel
+        fields = '__all__'
+
+
+class InsuranceCompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InsuranceCompanyModel
+        fields = '__all__'
+
+
+class AgentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AgentModel
+        fields = '__all__'
+
+
+class TransactionLedgerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TranscationLedger
+        fields = '__all__'
+
