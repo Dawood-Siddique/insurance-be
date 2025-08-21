@@ -3,14 +3,14 @@ from django.db import models
 # Create your models here.
 
 class InsuranceCompanyModel(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     contact = models.CharField(max_length=255)
 
     def __str__(self):
         return f"{self.name}"
 
 class ClientModel(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     contact = models.CharField(max_length=255)
     # balance = models.DecimalField(max_digits=10, decimal_places=2)
     
@@ -18,7 +18,7 @@ class ClientModel(models.Model):
         return f"{self.name}"
 
 class AgentModel(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     contact = models.CharField(max_length=255)
 
     def __str__(self):
