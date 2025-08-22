@@ -4,14 +4,14 @@ from django.db import models
 
 class InsuranceCompanyModel(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    contact = models.CharField(max_length=255)
+    contact = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return f"{self.name}"
 
 class ClientModel(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    contact = models.CharField(max_length=255)
+    contact = models.CharField(max_length=255, blank=True, null=True)
     # balance = models.DecimalField(max_digits=10, decimal_places=2)
     
     def __str__(self):
@@ -19,7 +19,7 @@ class ClientModel(models.Model):
 
 class AgentModel(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    contact = models.CharField(max_length=255)
+    contact = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return f"{self.name}"
