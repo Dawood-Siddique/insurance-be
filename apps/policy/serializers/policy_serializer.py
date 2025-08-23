@@ -3,6 +3,11 @@ from apps.policy.models import PolicyModel, ClientModel, InsuranceCompanyModel, 
 
 
 class PolicySerializer(serializers.ModelSerializer):
+
+    insurance_company = serializers.StringRelatedField()
+    agent = serializers.StringRelatedField()
+    client = serializers.StringRelatedField()
+
     class Meta:
         model = PolicyModel
         fields = '__all__'
