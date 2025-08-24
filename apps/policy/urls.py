@@ -5,7 +5,8 @@ from apps.policy.views.policy_view import (
     ClientView,
     InsuranceCompanyView,
     AgentView,
-    TransactionLedgerView
+    TransactionLedgerView,
+    TotalBalanceAgentView,
 )
 
 urlpatterns = [
@@ -14,4 +15,6 @@ urlpatterns = [
     path('insurance-company/', InsuranceCompanyView.as_view(), name='insurance-company'),
     path('agent/', AgentView.as_view(), name='agent'),
     path('ledger/', TransactionLedgerView.as_view(), name='ledger'),
+    path('total-balance/', TotalBalanceAgentView.as_view(), name='total-balance'),
+
 ]

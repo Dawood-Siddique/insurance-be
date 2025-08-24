@@ -12,6 +12,21 @@ from apps.policy.serializers.policy_serializer import (
     TransactionLedgerSerializer,
 )
 from apps.policy.models import PolicyModel, ClientModel, InsuranceCompanyModel, AgentModel, TranscationLedger
+from apps.policy.utils.utils_agent import get_all_balance
+
+
+class TotalBalanceAgentView(APIView):
+    def get(self, request):
+        agent_id = request.query_params.get('agent_id')
+        if not agent_id:
+            return Response({'error': 'Agent ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        total_balance = get_all_balance(agent_id)
+        if total_balance is not None:
+            return Response({'total_balance': total_balance}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Agent not found or an error occurred.'}, status=status.HTTP_404_NOT_FOUND)
+
 
 class TransactionLedgerView(APIView):
     # permission_classes = [IsAuthenticated]
