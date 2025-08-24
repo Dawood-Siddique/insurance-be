@@ -23,7 +23,11 @@ class TransactionLedgerView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def get(self, request):
-        data = TranscationLedger.objects.all()
+        policy_id = request.query_params.get('policy_id')
+        if not policy_id:
+            return Response({'error': 'Policy ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        data = TranscationLedger.objects.filter(policy_id=policy_id)
         serializer = TransactionLedgerSerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
