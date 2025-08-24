@@ -40,8 +40,10 @@ class TransactionLedgerView(APIView):
             transaction = TranscationLedger.objects.get(id=transaction_id)
             transaction.delete()
             return Response({'message': 'Transaction deleted successfully.'}, status=status.HTTP_200_OK)
-        except TranscationLedger.DoesNotExist:
-            return Response({'error': 'Transaction not found.'}, status=status.HTTP_404_NOT_FOUND)  
+        except ValueError as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class PolicyView(APIView):
     # permission_classes = [IsAuthenticated]
