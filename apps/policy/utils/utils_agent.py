@@ -10,8 +10,6 @@ def get_all_balance(policy_id):
         for transaction in transactions:
             if transaction.type == 'payment':
                 total_balance += transaction.amount
-            elif transaction.type == 'cancelled':
-                total_balance -= transaction.amount
             elif transaction.type == 'payback':
                 total_balance -= transaction.amount
             elif transaction.type == 'credit_adjustment':
