@@ -13,6 +13,8 @@ class PolicySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
+
 class ClientSerilializer(serializers.ModelSerializer):
     class Meta:
         model = ClientModel
@@ -36,3 +38,9 @@ class TransactionLedgerSerializer(serializers.ModelSerializer):
         model = TranscationLedger
         fields = '__all__'
 
+
+class PolicyDetailSerializer(serializers.ModelSerializer):
+    transactions = TransactionLedgerSerializer(source='transcationledger_set', many=True, read_only=True)
+    class Meta:
+        model = PolicyModel
+        fields = '__all__'

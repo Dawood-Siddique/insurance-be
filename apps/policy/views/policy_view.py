@@ -10,6 +10,7 @@ from apps.policy.serializers.policy_serializer import (
     InsuranceCompanySerializer,
     AgentSerializer,
     TransactionLedgerSerializer,
+    PolicyDetailSerializer,
 )
 from apps.policy.models import PolicyModel, ClientModel, InsuranceCompanyModel, AgentModel, TranscationLedger
 from apps.policy.utils.utils_agent import get_all_balance
@@ -17,11 +18,11 @@ from apps.policy.utils.utils_agent import get_all_balance
 
 class TotalBalanceAgentView(APIView):
     def get(self, request):
-        agent_id = request.query_params.get('agent_id')
-        if not agent_id:
+        policy_id = request.query_params.get('policy_id')
+        if not policy_id:
             return Response({'error': 'Agent ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
         
-        total_balance = get_all_balance(agent_id)
+        total_balance = get_all_balance(policy_id)
         if total_balance is not None:
             return Response({'total_balance': total_balance}, status=status.HTTP_200_OK)
         else:
@@ -133,3 +134,18 @@ class AgentView(APIView):
         data = AgentModel.objects.all()
         serializer = AgentSerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class PolicyDetailView(APIView):
+    # permission_classes = [IsAuthenticated]
+    def get(self, request):
+        policy_id = request.query_params.get('policy_id')
+        if not policy_id:
+            return Response({'error': 'Policy ID is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            policy = PolicyModel.objects.get(id=policy_id)
+            serializer = PolicyDetailSerializer(policy)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND)
