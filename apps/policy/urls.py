@@ -10,7 +10,13 @@ from apps.policy.views.policy_view import (
     PolicyDetailView,
 )
 
-urlpatterns = [
+from apps.policy.views.stat_view import StatisticsAPIView
+
+stat_url = [
+    path('stats/', StatisticsAPIView.as_view(), name='statistics'),
+]
+
+policy_url = [
     path('policy/', PolicyView.as_view(), name='policy'),
     path('client/', ClientView.as_view(), name='client'),
     path('insurance-company/', InsuranceCompanyView.as_view(), name='insurance-company'),
@@ -18,4 +24,9 @@ urlpatterns = [
     path('ledger/', TransactionLedgerView.as_view(), name='ledger'),
     path('total-balance/', TotalBalanceAgentView.as_view(), name='total-balance'),
     path('policy-detail/', PolicyDetailView.as_view(), name='policy-detail')
+]
+
+urlpatterns = [
+    *stat_url, 
+    *policy_url
 ]

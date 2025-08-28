@@ -1,10 +1,13 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from apps.policy.models import PolicyModel
-from apps.users.models.user_model import User
+
 from django.db.models import Count
 from django.utils import timezone
 from datetime import timedelta
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+from apps.policy.models import PolicyModel
+from apps.users.models.user_model import User
 
 class StatisticsAPIView(APIView):
     def get(self, request):
