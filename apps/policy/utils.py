@@ -20,4 +20,21 @@ def get_all_balance(policy_id):
     except:
         return None
 
+def get_total_profit(policies):
+    total_profit = 0
+    total_loss = 0
+    total_revenue = 0
+    for policy in policies:
+        transactions = TranscationLedger.objects.filter(policy=policy)
+
+        for transaction in transactions:
+            if transaction.type == 'payment':
+                total_revenue += transaction.amount
+            else:
+                total_loss += transaction.amount
+        total_profit += total_revenue - total_loss
+    
+    return (total_profit, total_revenue, total_loss)
+
+
 

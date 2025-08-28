@@ -13,7 +13,7 @@ from apps.policy.serializers.policy_serializer import (
     PolicyDetailSerializer,
 )
 from apps.policy.models import PolicyModel, ClientModel, InsuranceCompanyModel, AgentModel, TranscationLedger
-from apps.policy.utils.utils_agent import get_all_balance
+from apps.policy.utils import get_all_balance
 
 
 class TotalBalanceAgentView(APIView):
