@@ -1,0 +1,8 @@
+- [x] 1. stats_api_endpoint_strategy.md
+  - [✓ Verified] 1.1. Define Scope and Statistics
+  - [✓ Verified] 1.2. Create the `stats` Django app
+  - [✓ Verified] 1.3. Add `stats` app to `INSTALLED_APPS`
+  - [✓ Verified] 1.4. Implement the `StatisticsAPIView`
+    - Note: There should be multiple statistics regarding the project instead of simply one.
+    - Re-implemented after failure: Added multiple statistics to the APIView.
+  - [✓ Verified] 1.5. Create and include URL routing for the `stats` app

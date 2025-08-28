@@ -13,7 +13,7 @@ logs/*
 !logs/.gitkeep
 
 # gemini-cli settings
-.gemini/
+# .gemini/
 
 # GitHub App credentials
 gha-creds-*.json
