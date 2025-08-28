@@ -42,10 +42,13 @@ class PolicyModel(models.Model):
     remarks = models.TextField()
     reference_number = models.IntegerField()
 
+    created_at = models.DateField(auto_now_add=True)
+
+
 
 class TranscationLedger(models.Model):
     policy = models.ForeignKey(PolicyModel, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    date = models.DateField(auto_now_add=True)
+    created_at = models.DateField(auto_now_add=True)
     type = models.CharField(max_length=100, choices=[('cancelled', 'cancelled'), ('payment', 'payment'), ('credit_adjustment', 'credit_adjustment'), ('payback', 'payback')])
     description = models.TextField(blank=True, null=True)
