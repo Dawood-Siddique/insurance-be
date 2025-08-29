@@ -149,3 +149,21 @@ class PolicyDetailView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND)
+
+class CancelPolicyView(APIView):
+    def post(self, request):
+        policy_id = request.data.get('policy_id')
+
+        if not policy_id:
+            return Response({'error': 'Policy ID is required.'})
+        
+        try:
+            policy = PolicyModel.objects.get(id=policy_id)
+            policy.payment_status = 'cancel'
+            policy.save()
+            return Response({'message': 'Policy cancelled successfully.'})
+        except PolicyModel.DoesNotExist:
+            return Response({'error': 'Policy not found.'})
+        except Exception as e:
+            return Response({'error': str(e)})
+        
