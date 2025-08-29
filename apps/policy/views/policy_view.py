@@ -159,7 +159,7 @@ class CancelPolicyView(APIView):
         
         try:
             policy = PolicyModel.objects.get(id=policy_id)
-            policy.payment_status = 'cancel'
+            policy.payment_status = 'cancelled'
             policy.save()
             return Response({'message': 'Policy cancelled successfully.'})
         except PolicyModel.DoesNotExist:

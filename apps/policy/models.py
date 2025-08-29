@@ -38,7 +38,7 @@ class PolicyModel(models.Model):
     client_price = models.DecimalField(max_digits=10, decimal_places=2)
 
     payment_method = models.CharField(max_length=100, choices=[('cash', 'cash'), ('bank', 'bank')])
-    payment_status = models.CharField(max_length=100, choices=[('active', 'active'), ('complete', 'complete'), ('cancel', 'cancel')])
+    payment_status = models.CharField(max_length=100, choices=[('active', 'active'), ('complete', 'complete'), ('cancelled', 'cancelled')])
     remarks = models.TextField()
     reference_number = models.IntegerField()
 
