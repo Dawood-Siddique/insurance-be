@@ -2,23 +2,25 @@ from apps.policy.models import TranscationLedger, PolicyModel
 
 def get_all_balance(policy_id):
     try:
+        current_policy = PolicyModel.objects.get(id=policy_id)
+        agent = current_policy.agent
 
-        policy = PolicyModel.objects.get(id=policy_id)
-        agent = policy.agent
-        transactions = TranscationLedger.objects.filter(policy__agent=agent)
+        policies = PolicyModel.objects.filter(agent=agent)
         total_balance = 0
-        for transaction in transactions:
-            if transaction.type == 'payment':
-                total_balance += transaction.amount
-            elif transaction.type == 'payback':
-                total_balance -= transaction.amount
-            elif transaction.type == 'credit_adjustment':
-                total_balance -= transaction.amount
-        return total_balance
-
-
-    except:
-        return None
+        for policy in policies:
+            exptected_profit = policy.client_price - policy.co_rate
+            transactions = TranscationLedger.objects.filter(policy=policy)
+            for transaction in transactions:
+                if transaction.type == 'payment':
+                    total_balance += transaction.amount
+                elif transaction.type == 'payback':
+                    total_balance -= transaction.amount
+                elif transaction.type == 'credit_adjustment':
+                    total_balance -= transaction.amount
+            total_balance -= exptected_profit
+        return total_balance    
+    except Exception as e:
+        raise e
 
 def get_total_profit(policies):
     total_profit = 0
