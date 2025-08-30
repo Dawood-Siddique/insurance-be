@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from apps.policy.models import PolicyModel, TranscationLedger, AgentModel, ClientModel
-from apps.policy.utils import get_total_profit
+from apps.policy.utils import get_total_profit, get_average_rates
 
 
 class StatisticsAPIView(APIView):
@@ -39,6 +39,12 @@ class StatisticsAPIView(APIView):
         profit_7, revenue_7, loss_7 = get_total_profit(policies_last_7_days)
         profit_1, revenue_1, loss_1 = get_total_profit(policies_today)
 
+        average_rate_all, average_profit_all = get_average_rates(policies)
+        average_rate_30, average_profit_30 = get_average_rates(policies_last_30_days)
+        average_rate_start, average_profit_start = get_average_rates(policies_last_start_of_month)
+        average_rate_7, average_profit_7 = get_average_rates(policies_last_7_days)
+        average_rate_1, average_profit_1 = get_average_rates(policies_today)
+
         data = {
             "all":{
                 "policy_count": policies.count(),
@@ -46,8 +52,8 @@ class StatisticsAPIView(APIView):
                 "revenue": total_revenue,
                 "loss": total_loss,
                 "cancel_policy": policies.filter(payment_status='cancelled').count(),
-                "average_rate": 0,
-                "average_profit": 0,
+                "average_rate": average_rate_all,
+                "average_profit": average_profit_all,
             },
             "start": {
                 "policy_count": policies_last_start_of_month.count(),
@@ -55,8 +61,8 @@ class StatisticsAPIView(APIView):
                 "revenue": revenue_start,
                 "loss": loss_start,
                 "cancel_policy": policies_last_start_of_month.filter(payment_status='cancelled').count(),
-                "average_rate": 0,
-                "average_profit": 0,
+                "average_rate": average_rate_start,
+                "average_profit": average_profit_start,
             },
             "30": {
                 "policy_count": policies_last_30_days.count(),
@@ -65,8 +71,8 @@ class StatisticsAPIView(APIView):
                 "loss": loss_30,
                 "cancel_policy": policies_last_30_days.filter(payment_status='cancelled').count(),
                 
-                "average_rate": 0,
-                "average_profit": 0,
+                "average_rate": average_rate_30,
+                "average_profit": average_profit_30,
             },
             "7": {
                 "policy_count": policies_last_7_days.count(),
@@ -75,8 +81,8 @@ class StatisticsAPIView(APIView):
                 "loss": loss_7,
                 "cancel_policy": policies_last_7_days.filter(payment_status='cancelled').count(),
 
-                "average_rate": 0,
-                "average_profit": 0,
+                "average_rate": average_rate_7,
+                "average_profit": average_profit_7,
             },
             "1": {
                 "policy_count": policies_today.count(),
@@ -84,8 +90,8 @@ class StatisticsAPIView(APIView):
                 "revenue": revenue_1,
                 "loss": loss_1,
                 "cancel_policy": policies_today.filter(payment_status='cancelled').count(),
-                "average_rate": 0,
-                "average_profit": 0,
+                "average_rate": average_rate_1,
+                "average_profit": average_profit_1,
             },
         }
         return Response(data)

@@ -22,6 +22,7 @@ def get_all_balance(policy_id):
     except Exception as e:
         raise e
 
+
 def get_total_profit(policies):
     total_profit = 0
     total_loss = 0
@@ -43,6 +44,24 @@ def get_total_profit(policies):
             total_loss += profit
     
     return (total_profit, total_revenue, total_loss)
+
+
+def get_average_rates(policies):
+    total_policies = policies.count()
+    if total_policies == 0:
+        return (0, 0)
+
+    total_client_price = 0
+    total_profit = 0
+
+    for policy in policies:
+        total_client_price += policy.client_price
+        total_profit += policy.client_price - policy.co_rate
+
+    average_rate = total_client_price / total_policies
+    average_profit = total_profit / total_policies
+
+    return (average_rate, average_profit)
 
 
 
