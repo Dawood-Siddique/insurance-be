@@ -28,9 +28,29 @@ class TransactionLedgerSerializer(serializers.ModelSerializer):
 
 class PolicyDetailSerializer(serializers.ModelSerializer):
     transactions = TransactionLedgerSerializer(source='transcationledger_set', many=True, read_only=True)
+    profit_loss = serializers.SerializerMethodField()
+    expected_profit = serializers.SerializerMethodField()
+
+    
     class Meta:
         model = PolicyModel
         fields = '__all__'
+    
+    def get_profit_loss(self, obj):
+        total_profit = 0
+        transactions = TranscationLedger.objects.filter(policy=obj)
+        for transaction in transactions:
+            if transaction.type == 'payment':
+                total_profit += transaction.amount
+            else:
+                total_profit -= transaction.amount
+        total_profit -= obj.client_price
+        return total_profit
+    
+    def get_expected_profit(self, obj):
+        return obj.client_price - obj.co_rate
+    
+
 
     def to_representation(self, instance):
         rep =  super().to_representation(instance)
