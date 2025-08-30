@@ -44,31 +44,48 @@ class StatisticsAPIView(APIView):
                 "policy_count": policies.count(),
                 "profit": total_profit,
                 "revenue": total_revenue,
-                "loss": total_loss
+                "loss": total_loss,
+                "cancel_policy": policies.filter(payment_status='canceled').count(),
+                "average_rate": 0,
+                "average_profit": 0,
             },
             "start": {
                 "policy_count": policies_last_start_of_month.count(),
                 "profit": profit_start,
                 "revenue": revenue_start,
-                "loss": loss_start
+                "loss": loss_start,
+                "cancel_policy": policies_last_start_of_month.filter(payment_status='canceled').count(),
+                "average_rate": 0,
+                "average_profit": 0,
             },
             "30": {
                 "policy_count": policies_last_30_days.count(),
                 "profit": profit_30,
                 "revenue": revenue_30,
-                "loss": loss_30
+                "loss": loss_30,
+                "cancel_policy": policies_last_30_days.filter(payment_status='canceled').count(),
+                
+                "average_rate": 0,
+                "average_profit": 0,
             },
             "7": {
                 "policy_count": policies_last_7_days.count(),
                 "profit": profit_7,
                 "revenue": revenue_7,
-                "loss": loss_7
+                "loss": loss_7,
+                "cancel_policy": policies_last_7_days.filter(payment_status='canceled').count(),
+
+                "average_rate": 0,
+                "average_profit": 0,
             },
             "1": {
                 "policy_count": policies_today.count(),
                 "profit": profit_1,
                 "revenue": revenue_1,
-                "loss": loss_1
+                "loss": loss_1,
+                "cancel_policy": policies_today.filter(payment_status='canceled').count(),
+                "average_rate": 0,
+                "average_profit": 0,
             },
         }
         return Response(data)
