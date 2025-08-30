@@ -32,12 +32,13 @@ class StatisticsAPIView(APIView):
         profit_1, revenue_1, loss_1 = get_total_profit(policies_today)
 
         data = {
-            "total_policies": total_policies,
-            "total_agents": total_agents,
-            "total_clients": total_clients,
-            "total_profit": total_profit,
-            "total_revenue": total_revenue,
-            "total_loss": total_loss,
+            "all":{
+                "policy_count": policies.count(),
+                "profit": total_profit,
+                "revenue": total_revenue,
+                "loss": total_loss
+
+            },
             "30": {
                 "policy_count": policies_last_30_days.count(),
                 "profit": profit_30,
