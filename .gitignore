@@ -16,4 +16,4 @@ logs/*
 # .gemini/
 
 # GitHub App credentials
-gha-creds-*.json
+gha-creds-*.jsontmp.py
