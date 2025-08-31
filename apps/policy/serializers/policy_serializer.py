@@ -67,6 +67,7 @@ class PolicySerializer(serializers.ModelSerializer):
     insurance_company = serializers.PrimaryKeyRelatedField(queryset=InsuranceCompanyModel.objects.all())
     agent = serializers.PrimaryKeyRelatedField(queryset=AgentModel.objects.all())
     client = serializers.PrimaryKeyRelatedField(queryset=ClientModel.objects.all())
+    profit_loss = serializers.SerializerMethodField()
     # agent = AgentSerializer()
     # client = ClientSerilializer()
 
@@ -74,6 +75,17 @@ class PolicySerializer(serializers.ModelSerializer):
         model = PolicyModel
         fields = '__all__'
     
+    def get_profit_loss(self, obj):
+        total_profit = 0
+        transactions = TranscationLedger.objects.filter(policy=obj)
+        for transaction in transactions:
+            if transaction.type == 'payment':
+                total_profit += transaction.amount
+            else:
+                total_profit -= transaction.amount
+        total_profit -= obj.client_price
+        return total_profit
+
     def to_representation(self, instance):
         rep = super().to_representation(instance)
         rep['insurance_company'] = instance.insurance_company.name
