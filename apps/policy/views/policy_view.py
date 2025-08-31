@@ -167,3 +167,22 @@ class CancelPolicyView(APIView):
         except Exception as e:
             return Response({'error': str(e)})
         
+class ChangeStatusView(APIView):
+    def post(self, request):
+        policy_id = request.data.get('policy_id')
+        status = request.data.get('status')
+
+        if not policy_id or not status:
+            return Response({'error': 'Policy ID and status are required.'})
+        if status not in ['active', 'complete', 'cancelled']:
+            return Response({'error': 'Invalid status.'})
+        
+        try:
+            policy = PolicyModel.objects.get(id=policy_id)
+            policy.payment_status = status
+            policy.save()
+            return Response({'message': 'Policy status changed successfully.'})
+        except PolicyModel.DoesNotExist:
+            return Response({'error': 'Policy not found.'})
+        except Exception as e:
+            return Response({'error': str(e)})
