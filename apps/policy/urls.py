@@ -13,9 +13,14 @@ from apps.policy.views.policy_view import (
 )
 
 from apps.policy.views.stat_view import StatisticsAPIView
+from apps.policy.views.report_view import DownloadReportView
 
 stat_url = [
     path('stats/', StatisticsAPIView.as_view(), name='statistics'),
+]
+
+report_url = [
+    path('report/download/', DownloadReportView.as_view(), name='download-report'),
 ]
 
 policy_url = [
@@ -31,6 +36,7 @@ policy_url = [
 ]
 
 urlpatterns = [
-    *stat_url, 
-    *policy_url
+    *stat_url,
+    *policy_url,
+    *report_url
 ]

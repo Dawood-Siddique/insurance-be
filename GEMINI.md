@@ -33,7 +33,7 @@ The project follows a standard Django architecture:
 ### Prerequisites
 
 *   Python >= 3.12
-*   `uv` (or `pip`)
+*   `uv` 
 
 ### Installation
 
@@ -93,3 +93,8 @@ python manage.py test
 ### Commits
 
 Commit messages should be clear and concise, describing the changes made.
+
+### Considerations
+
+Always assume the server is running
+Do not run tests files
