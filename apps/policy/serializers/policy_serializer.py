@@ -44,7 +44,7 @@ class PolicyDetailSerializer(serializers.ModelSerializer):
                 total_profit += transaction.amount
             else:
                 total_profit -= transaction.amount
-        total_profit -= obj.client_price
+        total_profit -= obj.co_rate
         return total_profit
     
     def get_expected_profit(self, obj):
@@ -83,7 +83,7 @@ class PolicySerializer(serializers.ModelSerializer):
                 total_profit += transaction.amount
             else:
                 total_profit -= transaction.amount
-        total_profit -= obj.client_price
+        total_profit -= obj.co_rate
         return total_profit
 
     def to_representation(self, instance):
