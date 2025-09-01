@@ -27,6 +27,19 @@ class DownloadReportView(APIView):
         start_date = self.request.query_params.get('start_date', None)
         end_date = self.request.query_params.get('end_date', None)
         status_filter = self.request.query_params.get('status', None)
+        insured_name = self.request.query_params.get('insured_name', None)
+        agent_name = self.request.query_params.get('agent_name', None)
+        insurance_company= self.request.query_params.get('insurance_company', None)
+
+        # insured_name, agent_name and insurance_company are primary values
+        if insured_name:
+            queryset = queryset.filter(client=insured_name)
+        
+        if agent_name:
+            queryset = queryset.filter(agent=agent_name)
+        
+        if insurance_company:
+            queryset = queryset.filter(insurance_company=insurance_company)
 
         if start_date:
             queryset = queryset.filter(issue_date__gte=start_date)
