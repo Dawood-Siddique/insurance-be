@@ -64,4 +64,18 @@ def get_average_rates(policies):
     return (average_rate, average_profit)
 
 
+def get_expected_bank_money(policies):
+    current = 0
+    expected_money = 0
+    for policy in policies:
+        if policy.payment_method == 'bank':
+            expected_money += policy.client_price
+            try:
+                transactions = TranscationLedger.objects.get(policy=policy)
+                for transaction in transactions:
+                    if transaction.type == 'payment':
+                        current += transaction.amount
+            except:
+                return (0, 0)
+    return (expected_money, current)
 
