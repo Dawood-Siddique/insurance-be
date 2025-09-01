@@ -39,14 +39,17 @@ class DownloadReportView(APIView):
         total_revenue = queryset.aggregate(total=Sum('client_price'))['total'] or 0
         total_paid = TranscationLedger.objects.filter(policy__in=queryset, type='payment').aggregate(total=Sum('amount'))['total'] or 0
         total_remaining = total_revenue - total_paid
+        total_gross_price = queryset.aggregate(total=Sum('gross_price'))['total'] or 0
+        total_profit = total_revenue - total_gross_price
+
 
         # Create a pandas DataFrame from the serialized data
         df = pd.DataFrame(serializer.data)
 
         # Create a summary DataFrame
         summary_data = {
-            'Description': ['Total Revenue', 'Total Amount Paid', 'Total Amount Remaining'],
-            'Amount': [total_revenue, total_paid, total_remaining]
+            'Description': ['Total Revenue', 'Total Amount Paid', 'Total Amount Remaining', 'Total Gross Price', 'Total Profit'],
+            'Amount': [total_revenue, total_paid, total_remaining, total_gross_price, total_profit]
         }
         summary_df = pd.DataFrame(summary_data)
 
