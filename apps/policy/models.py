@@ -26,7 +26,7 @@ class AgentModel(models.Model):
 
 class PolicyModel(models.Model):
     issue_date = models.DateField()
-    insurance_company = models.ForeignKey(InsuranceCompanyModel, on_delete=models.CASCADE)
+    insurance_company = models.ForeignKey(InsuranceCompanyModel, on_delete=models.CASCADE, blank=True, null=True)
     policy_number = models.CharField(max_length=255, unique=True)
     client = models.ForeignKey(ClientModel, on_delete=models.CASCADE, blank=True, null=True)
     car_model = models.CharField(max_length=255, blank=True, null=True)
