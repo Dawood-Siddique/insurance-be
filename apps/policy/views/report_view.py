@@ -9,7 +9,7 @@ import io
 
 from apps.policy.models import PolicyModel, TranscationLedger
 from apps.policy.serializers.policy_serializer import PolicySerializer
-from apps.policy.utils import get_total_profit, get_average_rates
+from apps.policy.utils import get_total_profit, get_average_rates, get_expected_bank_money
 
 
 class DownloadReportView(APIView):
@@ -54,46 +54,20 @@ class DownloadReportView(APIView):
         policies_df = pd.DataFrame(policy_serializer.data)
 
         # Get summary data
-        start_of_month = timezone.now().replace(day=1)
-        policies_last_30_days = PolicyModel.objects.filter(created_at__gte=timezone.now() - timedelta(days=30))
-        policies_last_start_of_month = PolicyModel.objects.filter(created_at__gte=start_of_month)
-        policies_last_7_days = PolicyModel.objects.filter(created_at__gte=timezone.now() - timedelta(days=7))
-        policies_today = PolicyModel.objects.filter(created_at=timezone.now().date())
-        all_policies = PolicyModel.objects.all()
-
-        total_profit, total_revenue, total_loss = get_total_profit(all_policies)
-        profit_30, revenue_30, loss_30 = get_total_profit(policies_last_30_days)
-        profit_start, revenue_start, loss_start = get_total_profit(policies_last_start_of_month)
-        profit_7, revenue_7, loss_7 = get_total_profit(policies_last_7_days)
-        profit_1, revenue_1, loss_1 = get_total_profit(policies_today)
-
-        average_rate_all, average_profit_all = get_average_rates(all_policies)
-        average_rate_30, average_profit_30 = get_average_rates(policies_last_30_days)
-        average_rate_start, average_profit_start = get_average_rates(policies_last_start_of_month)
-        average_rate_7, average_profit_7 = get_average_rates(policies_last_7_days)
-        average_rate_1, average_profit_1 = get_average_rates(policies_today)
+        total_profit, total_revenue, total_loss = get_total_profit(queryset)
+        average_rate, average_profit = get_average_rates(queryset)
+        expected_money, current_money = get_expected_bank_money(queryset)
 
         summary_data = {
-            "Timeframe": ["All Time", "This Month", "Last 30 Days", "Last 7 Days", "Today"],
-            "Policy Count": [
-                all_policies.count(),
-                policies_last_start_of_month.count(),
-                policies_last_30_days.count(),
-                policies_last_7_days.count(),
-                policies_today.count()
-            ],
-            "Profit": [total_profit, profit_start, profit_30, profit_7, profit_1],
-            "Revenue": [total_revenue, revenue_start, revenue_30, revenue_7, revenue_1],
-            "Loss": [total_loss, loss_start, loss_30, loss_7, loss_1],
-            "Cancelled Policies": [
-                all_policies.filter(payment_status='cancelled').count(),
-                policies_last_start_of_month.filter(payment_status='cancelled').count(),
-                policies_last_30_days.filter(payment_status='cancelled').count(),
-                policies_last_7_days.filter(payment_status='cancelled').count(),
-                policies_today.filter(payment_status='cancelled').count()
-            ],
-            "Average Rate": [average_rate_all, average_rate_start, average_rate_30, average_rate_7, average_rate_1],
-            "Average Profit": [average_profit_all, average_profit_start, average_profit_30, average_profit_7, average_profit_1],
+            "Policy Count": [queryset.count()],
+            "Profit": [total_profit],
+            "Revenue": [total_revenue],
+            "Loss": [total_loss],
+            "Cancelled Policies": [queryset.filter(payment_status='cancelled').count()],
+            "Average Rate": [average_rate],
+            "Average Profit": [average_profit],
+            "Expected Money": [expected_money],
+            "Current Money": [current_money],
         }
         summary_df = pd.DataFrame(summary_data)
 
