@@ -14,3 +14,7 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'insurance-be.settings')
 
 application = get_wsgi_application()
+
+# For Vercel
+app = application
+
