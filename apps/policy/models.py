@@ -27,11 +27,11 @@ class AgentModel(models.Model):
 class PolicyModel(models.Model):
     issue_date = models.DateField()
     insurance_company = models.ForeignKey(InsuranceCompanyModel, on_delete=models.CASCADE)
-    policy_number = models.CharField(max_length=255)
-    client = models.ForeignKey(ClientModel, on_delete=models.CASCADE)
-    car_model = models.CharField(max_length=255)
-    engine_type = models.CharField(max_length=255)
-    agent = models.ForeignKey(AgentModel, on_delete=models.CASCADE)
+    policy_number = models.CharField(max_length=255, unique=True)
+    client = models.ForeignKey(ClientModel, on_delete=models.CASCADE, blank=True, null=True)
+    car_model = models.CharField(max_length=255, blank=True, null=True)
+    engine_type = models.CharField(max_length=255, blank=True, null=True)
+    agent = models.ForeignKey(AgentModel, on_delete=models.CASCADE, blank=True, null=True)
 
     gross_price = models.DecimalField(max_digits=10, decimal_places=2)
     co_rate = models.DecimalField(max_digits=10, decimal_places=2)
@@ -39,8 +39,8 @@ class PolicyModel(models.Model):
 
     payment_method = models.CharField(max_length=100, choices=[('cash', 'cash'), ('bank', 'bank')])
     payment_status = models.CharField(max_length=100, choices=[('active', 'active'), ('complete', 'complete'), ('cancelled', 'cancelled')])
-    remarks = models.TextField()
-    reference_number = models.IntegerField()
+    remarks = models.TextField(blank=True, null=True)
+    reference_number = models.IntegerField(blank=True, null=True)
 
     created_at = models.DateField(auto_now_add=True)
 
