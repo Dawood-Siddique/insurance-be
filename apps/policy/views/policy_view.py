@@ -17,6 +17,7 @@ from apps.policy.utils import get_all_balance
 
 
 class TotalBalanceAgentView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         policy_id = request.query_params.get('policy_id')
         if not policy_id:
@@ -30,7 +31,7 @@ class TotalBalanceAgentView(APIView):
 
 
 class TransactionLedgerView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = TransactionLedgerSerializer(data=request.data)
         if serializer.is_valid():
@@ -62,7 +63,7 @@ class TransactionLedgerView(APIView):
 
 
 class PolicyView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         data = PolicyModel.objects.all()
@@ -91,7 +92,7 @@ class PolicyView(APIView):
 
 
 class ClientView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = ClientSerilializer(data=request.data)
@@ -107,7 +108,7 @@ class ClientView(APIView):
 
 
 class InsuranceCompanyView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = InsuranceCompanySerializer(data=request.data)
         if serializer.is_valid():
@@ -122,7 +123,7 @@ class InsuranceCompanyView(APIView):
     
 
 class AgentView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = AgentSerializer(data=request.data)
         if serializer.is_valid():
@@ -137,7 +138,7 @@ class AgentView(APIView):
 
 
 class PolicyDetailView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         policy_id = request.query_params.get('policy_id')
         if not policy_id:
@@ -151,6 +152,7 @@ class PolicyDetailView(APIView):
             return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND)
 
 class CancelPolicyView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         policy_id = request.data.get('policy_id')
 
@@ -168,6 +170,7 @@ class CancelPolicyView(APIView):
             return Response({'error': str(e)})
         
 class ChangeStatusView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         policy_id = request.data.get('policy_id')
         status = request.data.get('status')

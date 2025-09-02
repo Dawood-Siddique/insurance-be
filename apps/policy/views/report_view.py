@@ -1,6 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+
 from django.utils import timezone
 from datetime import timedelta
 import pandas as pd
@@ -16,6 +18,8 @@ class DownloadReportView(APIView):
     """
     View to download a report of policies.
     """
+    permission_classes = [IsAuthenticated]
+
 
     def get(self, request, *args, **kwargs):
         """

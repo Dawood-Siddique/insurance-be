@@ -5,12 +5,16 @@ from datetime import timedelta
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+
 
 from apps.policy.models import PolicyModel, TranscationLedger, AgentModel, ClientModel
 from apps.policy.utils import get_total_profit, get_average_rates, get_expected_bank_money
 
 
 class StatisticsAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request):
         # total_policies = PolicyModel.objects.count()
         # total_agents = AgentModel.objects.count()
