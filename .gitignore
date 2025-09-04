@@ -5,8 +5,8 @@ db.sqlite3
 static
 theme
 
-**/migrations/*
-!**/migrations/__init__.py
+# **/migrations/*
+# !**/migrations/__init__.py
 tmp.ipynb
 
 logs/*

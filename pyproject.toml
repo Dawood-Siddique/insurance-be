@@ -5,6 +5,7 @@ description = "A Django REST API project"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "dj-database-url>=3.0.1",
     "django>=5.2.4",
     "django-cors-headers>=4.7.0",
     "djangorestframework>=3.16.0",
@@ -13,4 +14,6 @@ dependencies = [
     "gunicorn>=23.0.0",
     "openpyxl>=3.1.5",
     "pandas>=2.2.2",
+    "psycopg2-binary>=2.9.10",
+    "python-dotenv>=1.1.1",
 ]
