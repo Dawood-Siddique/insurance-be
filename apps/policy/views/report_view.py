@@ -11,7 +11,7 @@ import io
 
 from apps.policy.models import PolicyModel, TranscationLedger
 from apps.policy.serializers.policy_serializer import PolicySerializer
-from apps.policy.utils import get_total_profit, get_average_rates, get_expected_bank_money
+from apps.policy.utils import get_total_profit, get_average_rates, get_expected_bank_money, get_expected_cash_money
 
 
 class DownloadReportView(APIView):
@@ -61,6 +61,7 @@ class DownloadReportView(APIView):
         total_profit, total_revenue, total_loss = get_total_profit(queryset)
         average_rate, average_profit = get_average_rates(queryset)
         expected_money, current_money = get_expected_bank_money(queryset)
+        exptected_money_cash, current_money_cash = get_expected_cash_money(queryset)
 
         summary_data = {
             "Policy Count": [queryset.count()],
@@ -70,8 +71,11 @@ class DownloadReportView(APIView):
             "Cancelled Policies": [queryset.filter(payment_status='cancelled').count()],
             "Average Rate": [average_rate],
             "Average Profit": [average_profit],
-            "Expected Money": [expected_money],
-            "Current Money": [current_money],
+            "Expected Bank Money": [expected_money],
+            "Current Bank Money": [current_money],
+            "Expected Cash Money": [exptected_money_cash],
+            "Current Cash Money": [current_money_cash],
+
         }
         summary_df = pd.DataFrame(summary_data)
 

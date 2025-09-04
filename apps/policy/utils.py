@@ -79,3 +79,19 @@ def get_expected_bank_money(policies):
                 return (0, 0)
     return (expected_money, current)
 
+
+def get_expected_cash_money(policies):
+    current = 0
+    expected_money = 0
+    for policy in policies:
+        if policy.payment_method == 'cash':
+            expected_money += policy.client_price
+            try:
+                transactions = TranscationLedger.objects.filter(policy=policy)
+                for transaction in transactions:
+                    if transaction.type == 'payment':
+                        current += transaction.amount
+            except TranscationLedger.DoesNotExist:
+                pass # No transactions yet, current remains 0
+    return (expected_money, current)
+    
