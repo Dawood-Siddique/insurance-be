@@ -19,7 +19,6 @@ ALLOWED_HOSTS = ['*']
 AUTH_USER_MODEL = 'users.User'
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-DJANGO_LOG_LEVEL = 'INFO'
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
@@ -162,30 +161,4 @@ SPECTACULAR_SETTINGS = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
-}
-
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "console": {"class": "logging.StreamHandler"},
-        "file": {
-            "class": "logging.FileHandler",
-            "filename": BASE_DIR / "logs/general.log",
-            "formatter": "verbose",
-        },
-    },
-    "loggers": {
-        "": {
-            "handlers": ["console", "file"],
-            "level": os.environ.get("DJANGO_LOG_LEVEL", "INFO"),
-        }
-    },
-    "formatters": {
-        "verbose": {
-            "format": "{asctime} ({levelname})- {name}- {message}",
-            "style": "{",
-        }
-    },
 }
