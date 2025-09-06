@@ -8,17 +8,14 @@ def get_all_balance(policy_id):
         policies = PolicyModel.objects.filter(agent=agent)
         total_balance = 0
         for policy in policies:
-            exptected_profit = policy.client_price - policy.co_rate
             transactions = TranscationLedger.objects.filter(policy=policy)
             for transaction in transactions:
                 if transaction.type == 'payment':
                     total_balance += transaction.amount
-                elif transaction.type == 'payback':
+                elif transaction.type in ['payback', 'credit_adjustment', 'cancelled']:
                     total_balance -= transaction.amount
-                elif transaction.type == 'credit_adjustment':
-                    total_balance -= transaction.amount
-            total_balance -= exptected_profit
-        return total_balance    
+            total_balance -= policy.client_price
+        return total_balance
     except Exception as e:
         raise e
 
@@ -27,6 +24,8 @@ def get_total_profit(policies):
     total_profit = 0
     total_loss = 0
     total_revenue = 0
+    expected_profit = 0
+    total_payback = 0
     for policy in policies:
         balance = 0
         transactions = TranscationLedger.objects.filter(policy=policy)
@@ -35,15 +34,23 @@ def get_total_profit(policies):
             if transaction.type == 'payment':
                 total_revenue += transaction.amount
                 balance += transaction.amount
+            elif transaction.type == 'payback':
+                balance -= transaction.amount
             else:
                 balance -= transaction.amount
-        profit = balance - policy.client_price
+        profit = balance - policy.co_rate
+        if balance - policy.client_price > 0:
+            payback = balance - policy.client_price
+            total_payback += payback
         if profit >= 0:
             total_profit += profit
         else:
             total_loss += profit
-    
-    return (total_profit, total_revenue, total_loss)
+
+        expected_profit += policy.client_price - policy.co_rate
+
+    return (total_profit, total_revenue, total_loss, expected_profit, total_payback)
+
 
 
 def get_average_rates(policies):
@@ -70,13 +77,10 @@ def get_expected_bank_money(policies):
     for policy in policies:
         if policy.payment_method == 'bank':
             expected_money += policy.client_price
-            try:
-                transactions = TranscationLedger.objects.get(policy=policy)
-                for transaction in transactions:
-                    if transaction.type == 'payment':
-                        current += transaction.amount
-            except:
-                return (0, 0)
+            transactions = TranscationLedger.objects.filter(policy=policy)
+            for transaction in transactions:
+                if transaction.type == 'payment':
+                    current += transaction.amount
     return (expected_money, current)
 
 

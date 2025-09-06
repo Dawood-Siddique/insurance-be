@@ -37,13 +37,13 @@ class StatisticsAPIView(APIView):
 
         policies = PolicyModel.objects.all()
 
-        total_profit, total_revenue, total_loss = get_total_profit(policies)
-        profit_30, revenue_30, loss_30 = get_total_profit(
+        total_profit, total_revenue, total_loss, expected_profit, total_payback = get_total_profit(policies)
+        profit_30, revenue_30, loss_30, expected_profit_30, payback_30 = get_total_profit(
             policies_last_30_days)
-        profit_start, revenue_start, loss_start = get_total_profit(
+        profit_start, revenue_start, loss_start, expected_profit_start, payback_start = get_total_profit(
             policies_last_start_of_month)
-        profit_7, revenue_7, loss_7 = get_total_profit(policies_last_7_days)
-        profit_1, revenue_1, loss_1 = get_total_profit(policies_today)
+        profit_7, revenue_7, loss_7, expected_profit_7, payback_7 = get_total_profit(policies_last_7_days)
+        profit_1, revenue_1, loss_1, expected_profit_1, payback_1 = get_total_profit(policies_today)
 
         average_rate_all, average_profit_all = get_average_rates(policies)
         average_rate_30, average_profit_30 = get_average_rates(policies_last_30_days)
@@ -72,6 +72,8 @@ class StatisticsAPIView(APIView):
                 "profit": total_profit,
                 "revenue": total_revenue,
                 "loss": total_loss,
+                "expected_profit": expected_profit,
+                "total_payback": total_payback,
                 "cancel_policy": policies.filter(payment_status='cancelled').count(),
                 "average_rate": average_rate_all,
                 "average_profit": average_profit_all,
@@ -85,6 +87,8 @@ class StatisticsAPIView(APIView):
                 "profit": profit_start,
                 "revenue": revenue_start,
                 "loss": loss_start,
+                "expected_profit": expected_profit_start,
+                "total_payback": payback_start,
                 "cancel_policy": policies_last_start_of_month.filter(payment_status='cancelled').count(),
                 "average_rate": average_rate_start,
                 "average_profit": average_profit_start,
@@ -98,6 +102,8 @@ class StatisticsAPIView(APIView):
                 "profit": profit_30,
                 "revenue": revenue_30,
                 "loss": loss_30,
+                "expected_profit": expected_profit_30,
+                "total_payback": payback_30,
                 "cancel_policy": policies_last_30_days.filter(payment_status='cancelled').count(),
                 "average_rate": average_rate_30,
                 "average_profit": average_profit_30,
@@ -111,6 +117,8 @@ class StatisticsAPIView(APIView):
                 "profit": profit_7,
                 "revenue": revenue_7,
                 "loss": loss_7,
+                "expected_profit": expected_profit_7,
+                "total_payback": payback_7,
                 "cancel_policy": policies_last_7_days.filter(payment_status='cancelled').count(),
                 "average_rate": average_rate_7,
                 "average_profit": average_profit_7,
@@ -124,6 +132,8 @@ class StatisticsAPIView(APIView):
                 "profit": profit_1,
                 "revenue": revenue_1,
                 "loss": loss_1,
+                "expected_profit": expected_profit_1,
+                "total_payback": payback_1,
                 "cancel_policy": policies_today.filter(payment_status='cancelled').count(),
                 "average_rate": average_rate_1,
                 "average_profit": average_profit_1,
