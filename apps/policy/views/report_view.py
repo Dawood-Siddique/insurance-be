@@ -58,7 +58,7 @@ class DownloadReportView(APIView):
         policies_df = pd.DataFrame(policy_serializer.data)
 
         # Get summary data
-        total_profit, total_revenue, total_loss = get_total_profit(queryset)
+        total_profit, total_revenue, total_loss, expected_profit, total_payback = get_total_profit(queryset)
         average_rate, average_profit = get_average_rates(queryset)
         expected_money, current_money = get_expected_bank_money(queryset)
         exptected_money_cash, current_money_cash = get_expected_cash_money(queryset)
@@ -68,6 +68,8 @@ class DownloadReportView(APIView):
             "Profit": [total_profit],
             "Revenue": [total_revenue],
             "Loss": [total_loss],
+            "Expected Profit": [expected_profit],
+            "Total Payback": [total_payback],
             "Cancelled Policies": [queryset.filter(payment_status='cancelled').count()],
             "Average Rate": [average_rate],
             "Average Profit": [average_profit],
