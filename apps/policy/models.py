@@ -17,6 +17,12 @@ class ClientModel(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+class VendorModel(models.Model):
+    name = models.CharField(max_length=225, unique=True)
+    
+    def __str__(self):
+        return f"{self.name}"
+
 class AgentModel(models.Model):
     name = models.CharField(max_length=255, unique=True)
     contact = models.CharField(max_length=255, blank=True, null=True)
@@ -43,6 +49,8 @@ class PolicyModel(models.Model):
     reference_number = models.IntegerField(blank=True, null=True)
 
     created_at = models.DateField(auto_now_add=True)
+
+    vendor = models.ForeignKey(VendorModel, on_delete=models.CASCADE, blank=True, null=True)
 
 
 

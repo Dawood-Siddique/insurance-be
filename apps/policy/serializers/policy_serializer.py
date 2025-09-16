@@ -1,5 +1,10 @@
 from rest_framework import serializers
-from apps.policy.models import PolicyModel, ClientModel, InsuranceCompanyModel, AgentModel, TranscationLedger
+from apps.policy.models import PolicyModel, ClientModel, InsuranceCompanyModel, AgentModel, TranscationLedger, VendorModel
+
+class VendorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=VendorModel
+        fields = '__all__'
 
 
 class ClientSerilializer(serializers.ModelSerializer):
@@ -67,6 +72,7 @@ class PolicySerializer(serializers.ModelSerializer):
     insurance_company = serializers.PrimaryKeyRelatedField(queryset=InsuranceCompanyModel.objects.all())
     agent = serializers.PrimaryKeyRelatedField(queryset=AgentModel.objects.all())
     client = serializers.PrimaryKeyRelatedField(queryset=ClientModel.objects.all())
+    vendor = serializers.PrimaryKeyRelatedField(queryset=VendorModel.objects.all())
     profit_loss = serializers.SerializerMethodField()
     # agent = AgentSerializer()
     # client = ClientSerilializer()

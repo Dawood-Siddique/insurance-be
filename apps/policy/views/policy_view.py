@@ -11,8 +11,9 @@ from apps.policy.serializers.policy_serializer import (
     AgentSerializer,
     TransactionLedgerSerializer,
     PolicyDetailSerializer,
+    VendorSerializer
 )
-from apps.policy.models import PolicyModel, ClientModel, InsuranceCompanyModel, AgentModel, TranscationLedger
+from apps.policy.models import PolicyModel, ClientModel, InsuranceCompanyModel, AgentModel, TranscationLedger, VendorModel
 from apps.policy.utils import get_all_balance
 
 
@@ -121,6 +122,19 @@ class InsuranceCompanyView(APIView):
         serializer = InsuranceCompanySerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+class VendorView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        serializer = VendorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def get(self, request):
+        data = VendorModel.objects.all()
+        serializer = VendorSerializer(data, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class AgentView(APIView):
     permission_classes = [IsAuthenticated]
