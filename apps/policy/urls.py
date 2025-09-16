@@ -10,6 +10,7 @@ from apps.policy.views.policy_view import (
     PolicyDetailView,
     CancelPolicyView,
     ChangeStatusView,
+    VendorView
 )
 
 from apps.policy.views.stat_view import StatisticsAPIView
@@ -33,6 +34,7 @@ policy_url = [
     path('policy-detail/', PolicyDetailView.as_view(), name='policy-detail'),
     path('cancel-policy/', CancelPolicyView.as_view(), name='cancel-policy'),
     path('change-status/', ChangeStatusView.as_view(), name='change-status'),
+    path('vendor/', VendorView.as_view(), name='vendor')
 ]
 
 urlpatterns = [
