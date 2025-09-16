@@ -58,10 +58,11 @@ class PolicyDetailSerializer(serializers.ModelSerializer):
 
 
     def to_representation(self, instance):
-        rep =  super().to_representation(instance)
-        rep['insurance_company'] = instance.insurance_company.name
-        rep['agent'] = instance.agent.name
-        rep['client'] = instance.client.name
+        rep = super().to_representation(instance)
+        rep['insurance_company'] = instance.insurance_company.name if instance.insurance_company else None
+        rep['agent'] = instance.agent.name if instance.agent else None
+        rep['client'] = instance.client.name if instance.client else None
+        rep['vendor'] = instance.vendor.name if instance.vendor else None
         return rep
 
 class PolicySerializer(serializers.ModelSerializer):
