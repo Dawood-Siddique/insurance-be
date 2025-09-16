@@ -106,6 +106,18 @@ class ClientView(APIView):
         data = ClientModel.objects.all()
         serializer = ClientSerilializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def delete(self, request):
+        client_id = request.data.get('client_id')
+        if not client_id:
+            return Response({'error': 'Client ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            client = ClientModel.objects.get(id=client_id)
+            client.delete()
+            return Response({'message': 'Client deleted successfully'}, status=status.HTTP_200_OK)
+        except ClientModel.DoesNotExist:
+            return Response({'error': 'Client not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class InsuranceCompanyView(APIView):
@@ -121,6 +133,19 @@ class InsuranceCompanyView(APIView):
         data = InsuranceCompanyModel.objects.all()
         serializer = InsuranceCompanySerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request):
+        insurance_id = request.data.get('insurance_id')
+        if not insurance_id:
+            return Response({'error'}, 'Insurance ID is required.')
+
+        try:
+            insurance_company = InsuranceCompanyModel.objects.get(id=insurance_id)
+            insurance_company.delete()
+            return Response({'message': 'Insurance Company deleted successfully'}, status=status.HTTP_200_OK)
+        except InsuranceCompanyModel.DoesNotExist:
+            return Response({'error': 'Insurance Company not found'}, status=status.HTTP_404_NOT_FOUND)
+            
     
 class VendorView(APIView):
     permission_classes = [IsAuthenticated]
@@ -135,6 +160,17 @@ class VendorView(APIView):
         data = VendorModel.objects.all()
         serializer = VendorSerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def delete(self, request):
+        vendor_id = request.data.get('vendor_id')
+        if not vendor_id:
+            return Response({'error': 'Vendor ID is required'})
+        try:
+            vendor = VendorModel.objects.get(id=vendor_id)
+            vendor.delete()
+            return Response({'message': 'Vendor deleted successfully'}, status=status.HTTP_200_OK)
+        except VendorModel.DoesNotExist:
+            return Response({'error': 'Vendor not found'}, status=status.HTTP_404_NOT_FOUND)
 
 class AgentView(APIView):
     permission_classes = [IsAuthenticated]
@@ -149,6 +185,18 @@ class AgentView(APIView):
         data = AgentModel.objects.all()
         serializer = AgentSerializer(data, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request):
+        agent_id = request.data.get('agent_id')
+        if not agent_id:
+            return Response({'error': 'Agent ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            agent = AgentModel.objects.get(id=agent_id)
+            agent.delete()
+            return Response({'message': 'Agent deleted successfully'}, status=status.HTTP_200_OK)
+        except AgentModel.DoesNotExist:
+            return Response({'error': 'Agent not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class PolicyDetailView(APIView):
