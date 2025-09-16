@@ -32,12 +32,12 @@ class AgentModel(models.Model):
 
 class PolicyModel(models.Model):
     issue_date = models.DateField()
-    insurance_company = models.ForeignKey(InsuranceCompanyModel, on_delete=models.CASCADE, blank=True, null=True)
+    insurance_company = models.ForeignKey(InsuranceCompanyModel, on_delete=models.SET_NULL, blank=True, null=True)
     policy_number = models.CharField(max_length=255, unique=True)
-    client = models.ForeignKey(ClientModel, on_delete=models.CASCADE, blank=True, null=True)
+    client = models.ForeignKey(ClientModel, on_delete=models.SET_NULL, blank=True, null=True)
     car_model = models.CharField(max_length=255, blank=True, null=True)
     engine_type = models.CharField(max_length=255, blank=True, null=True)
-    agent = models.ForeignKey(AgentModel, on_delete=models.CASCADE, blank=True, null=True)
+    agent = models.ForeignKey(AgentModel, on_delete=models.SET_NULL, blank=True, null=True)
 
     gross_price = models.DecimalField(max_digits=10, decimal_places=2)
     co_rate = models.DecimalField(max_digits=10, decimal_places=2)
@@ -50,7 +50,7 @@ class PolicyModel(models.Model):
 
     created_at = models.DateField(auto_now_add=True)
 
-    vendor = models.ForeignKey(VendorModel, on_delete=models.CASCADE, blank=True, null=True)
+    vendor = models.ForeignKey(VendorModel, on_delete=models.SET_NULL, blank=True, null=True)
 
 
 
